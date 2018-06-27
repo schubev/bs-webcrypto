@@ -8,7 +8,7 @@ module Make(I : Implementation.S) = struct
 			?(extractable=false)
 			usages
 			: alg CryptoKey.t Js.Promise.t =
-		I.generateKey (A.generateKeyParamToJs param) ~extractable (usages |> Array.map CryptoKey.usageToJs)
+		I.generateKey (A.generateKeyParamToJs param) extractable (usages |> Array.map CryptoKey.usageToJs)
 	;;
 
 	let exportKey (type alg) (type fmt) 

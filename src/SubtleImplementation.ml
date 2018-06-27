@@ -17,7 +17,7 @@ external sign_ : subtle -> 'p -> 'k -> ArrayBuffer.t -> ArrayBuffer.t Js.Promise
 external digest_ : subtle -> string -> ArrayBuffer.t -> ArrayBuffer.t Js.Promise.t = "digest" [@@bs.send]
 external getRandomValues_ : crypto -> 'buffer -> 'buffer = "getRandomValues" [@@bs.send]
 
-let generateKey parameters ?(extractable=false) capabilities = generateKey_ subtle parameters extractable capabilities
+let generateKey (parameters:'parameters) (extractable:bool) (capabilities:string array) = generateKey_ subtle parameters extractable capabilities
 let exportKey format key = exportKey_ subtle format key
 let importKey format export = importKey_ subtle format export
 let encrypt parameters key plaintext = encrypt_ subtle parameters key plaintext
