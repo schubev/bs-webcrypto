@@ -1,5 +1,5 @@
 open Js.Typed_array
-open CryptoAlgorithmClass
+open AlgorithmClass
 
 module Make(I : Implementation.S) = struct
 	let generateKey (type alg) (type par)
