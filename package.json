@@ -1,0 +1,19 @@
+{
+	"name": "bs-webcrypto",
+	"version": "0.0.1",
+	"description": "WebCrypto bindings for Bucklescript",
+	"scripts": {
+		"start": "bsb -make-world -w",
+		"test": "jest --watch"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/schubev/bs-webcrypto.git"
+	},
+	"author": "Victor Schubert <v@schu.be>",
+	"license": "GPL-3.0-or-later",
+	"devDependencies": {
+		"bs-platform": "^3.1.5",
+		"@glennsl/bs-jest": "^0.4.2"
+	}
+}
