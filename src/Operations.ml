@@ -11,7 +11,7 @@ module Make(I : Implementation.S) = struct
 		I.generateKey (A.generateKeyParamToJs param) extractable (usages |> Array.map Key.usageToJs)
 	;;
 
-	let exportKey (type alg) (type fmt) 
+	let exportKey (type alg) (type fmt)
 			(module A : KeyAlgorithm with type t = alg)
 			(module F : Export.S with type t = fmt)
 			(key: alg Key.t)

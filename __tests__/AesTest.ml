@@ -1,7 +1,5 @@
 open Jest
 open Js.Typed_array
-module TestCrypto = Crypto.Make(SubtleImplementation)
-;;
 
 module Test(C : sig
 	module AesMode : AlgorithmClass.EncryptionAlgorithm
@@ -17,7 +15,7 @@ end) = struct
 		let open PromiseOperators in
 
 		let aesGenerateKey () =
-			TestCrypto.generateKey
+			Crypto.generateKey
 				(module AesMode)
 				generateKeyParam
 				~extractable:true
@@ -25,7 +23,7 @@ end) = struct
 		in
 
 		let aesEncrypt cleartext encryptionParam key =
-			TestCrypto.encrypt
+			Crypto.encrypt
 				(module AesMode)
 				encryptionParam
 				key
@@ -33,7 +31,7 @@ end) = struct
 		in
 
 		let aesDecrypt ciphertext encryptionParam key =
-			TestCrypto.decrypt
+			Crypto.decrypt
 				(module AesMode)
 				encryptionParam
 				key
@@ -48,11 +46,11 @@ end) = struct
 		in
 
 		let aesExportKey key =
-			TestCrypto.exportKey (module AesMode) (module ExportRaw) key
+			Crypto.exportKey (module AesMode) (module ExportRaw) key
 		in
 
 		testPromise "key generation generates something" (fun () ->
-			TestCrypto.generateKey (module AesMode) generateKeyParam [|Encrypt; Decrypt|]
+			Crypto.generateKey (module AesMode) generateKeyParam [|Encrypt; Decrypt|]
 			>|= (fun key -> expect key |> toBeTruthy)
 		);
 
@@ -115,19 +113,19 @@ end) = struct
 end
 
 include Test(struct
-	module AesMode = AlgorithmAesCtr;;
+	module AesMode = Crypto.Algorithm.AesCtr;;
 	let encryptionParam = { AesMode.counter=ArrayBuffer.make 16; length=24 }
 	let generateKeyParam = { AesMode.length=256 }
 end)
 
 include Test(struct
-	module AesMode = AlgorithmAesCbc;;
+	module AesMode = Crypto.Algorithm.AesCbc;;
 	let encryptionParam = { AesMode.initVector=ArrayBuffer.make 16 }
 	let generateKeyParam = { AesMode.length=256 }
 end)
 
 include Test(struct
-	module AesMode = AlgorithmAesGcm;;
+	module AesMode = Crypto.Algorithm.AesGcm;;
 	let encryptionParam = { AesMode.initVector=ArrayBuffer.make 16; authData=ArrayBuffer.make 16; length=128 }
 	let generateKeyParam = { AesMode.length=256 }
 end)
