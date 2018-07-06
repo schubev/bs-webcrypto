@@ -8,7 +8,7 @@ module type Format = sig
 end
 
 module Format = struct
-	module Raw = (CryptoKeyFormatRaw : Format)
+	module Raw = (KeyFormatRaw : Format)
 end
 
 let buffer : ('alg, Format.Raw.t) export -> Js.Typed_array.ArrayBuffer.t = Obj.magic

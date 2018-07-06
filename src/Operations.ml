@@ -7,30 +7,30 @@ module Make(I : Implementation.S) = struct
 			(param:par)
 			?(extractable=false)
 			usages
-			: alg CryptoKey.t Js.Promise.t =
-		I.generateKey (A.generateKeyParamToJs param) extractable (usages |> Array.map CryptoKey.usageToJs)
+			: alg Key.t Js.Promise.t =
+		I.generateKey (A.generateKeyParamToJs param) extractable (usages |> Array.map Key.usageToJs)
 	;;
 
 	let exportKey (type alg) (type fmt) 
 			(module A : KeyAlgorithm with type t = alg)
-			(module F : CryptoKey.Format with type t = fmt)
-			(key: alg CryptoKey.t)
-			: (alg, fmt) CryptoKey.export Js.Promise.t =
+			(module F : Key.Format with type t = fmt)
+			(key: alg Key.t)
+			: (alg, fmt) Key.export Js.Promise.t =
 		I.exportKey F.id key
 	;;
 	
 	let importKey (type alg) (type fmt)
 			(module A : KeyAlgorithm with type t = alg)
-			(module F : CryptoKey.Format with type t = fmt)
-			(export: (alg, fmt) CryptoKey.export)
-			: alg CryptoKey.t Js.Promise.t =
+			(module F : Key.Format with type t = fmt)
+			(export: (alg, fmt) Key.export)
+			: alg Key.t Js.Promise.t =
 		I.exportKey F.id export
 	;;
 
 	let encrypt (type alg) (type par)
 			(module A : EncryptionAlgorithm with type encryptionParam = par and type t = alg)
 			(param:par)
-			(key:alg CryptoKey.t)
+			(key:alg Key.t)
 			data
 			: ArrayBuffer.t Js.Promise.t =
 		I.encrypt (A.encryptionParamToJs param) key data
@@ -39,7 +39,7 @@ module Make(I : Implementation.S) = struct
 	let decrypt (type alg) (type par)
 			(module A : EncryptionAlgorithm with type encryptionParam = par and type t = alg)
 			(param:par)
-			(key:alg CryptoKey.t)
+			(key:alg Key.t)
 			data
 			: ArrayBuffer.t Js.Promise.t =
 		I.decrypt (A.encryptionParamToJs param) key data
@@ -48,7 +48,7 @@ module Make(I : Implementation.S) = struct
 	let verify (type alg) (type par)
 			(module A : SigningAlgorithm with type signingParam = par and type t = alg)
 			(param:par)
-			(key:alg CryptoKey.t)
+			(key:alg Key.t)
 			signature
 			data
 			: bool Js.Promise.t =
@@ -58,7 +58,7 @@ module Make(I : Implementation.S) = struct
 	let sign (type alg) (type par)
 			(module A : SigningAlgorithm with type signingParam = par and type t = alg)
 			(param:par)
-			(key:alg CryptoKey.t)
+			(key:alg Key.t)
 			data
 			: ArrayBuffer.t Js.Promise.t =
 		I.sign (A.signingParamToJs param) key data

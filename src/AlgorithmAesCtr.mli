@@ -5,7 +5,7 @@ val id : string
 
 type generateKeyParam = { length: int }
 type generateKeyParamJs
-type generateKeyResult = t CryptoKey.t
+type generateKeyResult = t Key.t
 val generateKeyParamToJs : generateKeyParam -> generateKeyParamJs
 
 type encryptionParam = { counter: ArrayBuffer.t; length: int }

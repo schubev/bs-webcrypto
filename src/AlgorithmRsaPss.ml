@@ -2,7 +2,7 @@ let id = "RSA-PSS"
 type t
 
 type generateKeyParam = (module AlgorithmClass.HashAlgorithm)
-type generateKeyResult = t CryptoKey.pair
+type generateKeyResult = t Key.pair
 type signingParam = { saltLength: int }
 
 type generateKeyParamJs = { name: string } [@@bs.deriving abstract]

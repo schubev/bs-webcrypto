@@ -4,7 +4,7 @@ let id = "RSA-OAEP"
 type t
 
 type generateKeyParam = (module AlgorithmClass.HashAlgorithm)
-type generateKeyResult = t CryptoKey.pair
+type generateKeyResult = t Key.pair
 type encryptionParam = { label: ArrayBuffer.t option }
 
 type generateKeyParamJs = { name: string } [@@bs.deriving abstract]

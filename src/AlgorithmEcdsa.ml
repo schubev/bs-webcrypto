@@ -12,7 +12,7 @@ let stringOfCurve = function
 | P521 -> "P-251"
 
 type generateKeyParam = curve
-type generateKeyResult = t CryptoKey.pair
+type generateKeyResult = t Key.pair
 type signingParam = (module AlgorithmClass.HashAlgorithm)
 
 type generateKeyParamJs = { namedCurve: string } [@@bs.deriving abstract]
