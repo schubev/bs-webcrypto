@@ -11,6 +11,8 @@ module Format = struct
 	module Raw = (CryptoKeyFormatRaw : Format)
 end
 
+let buffer : ('alg, Format.Raw.t) export -> Js.Typed_array.ArrayBuffer.t = Obj.magic
+
 type format = Raw | Spki | Pkcs8 | Jwk ;;
 let formatToJs = function
 	| Raw -> "raw"

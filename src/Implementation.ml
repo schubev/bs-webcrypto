@@ -12,4 +12,4 @@ module type S = sig
 	val getRandomValues : 'buffer -> 'buffer
 end
 
-module Subtle : S = SubtleImplementation.Make(SubtleImplementation.WebSubtle)
+(*module Subtle : S = SubtleImplementation.Make(SubtleImplementation.WebSubtle)*)

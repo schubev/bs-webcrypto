@@ -8,12 +8,24 @@ module type Subtle = sig
 	val subtle : subtle
 end
 
+(*
 module WebSubtle : Subtle = struct
 	type crypto
 	type subtle
 
 	external crypto : crypto = "window.crypto" [@@bs.val]
 	external getSubtle : crypto -> subtle = "subtle" [@@bs.get]
+	let subtle = crypto |> getSubtle
+end
+*)
+
+module NodeSubtle : Subtle = struct
+	type crypto
+	type subtle
+
+	external newCrypto : unit -> crypto = "node-webcrypto-ossl" [@@bs.module][@@bs.new]
+	external getSubtle : crypto -> subtle = "subtle" [@@bs.get]
+	let crypto = newCrypto ()
 	let subtle = crypto |> getSubtle
 end
 

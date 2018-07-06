@@ -7,7 +7,7 @@ module type Mode = sig
 	val encryptionParamToJs : encryptionParam -> encryptionParamJs
 end
 
-module Make(M: Mode) = struct
+module Make = functor (M : Mode) -> struct
 	include M
 
 	type generateKeyParam = { length: int }

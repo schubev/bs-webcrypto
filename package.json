@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"description": "WebCrypto bindings for Bucklescript",
 	"scripts": {
-		"start": "bsb -make-world -w",
+		"start": "bsb -make-world -w -verbose",
 		"test": "jest --watch"
 	},
 	"repository": {
