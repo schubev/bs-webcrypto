@@ -13,16 +13,8 @@ end) = struct
 
 	describe AesMode.id (fun () ->
 		let open ExpectJs in
-		let open Crypto.Subtle.Algorithm in
 		let open CryptoKey in
 		let open PromiseOperators in
-
-		let timeoutIdentity msecs x =
-			Js.Promise.make
-			(fun ~resolve ~reject:_ ->
-				ignore @@ Js.Global.setTimeout (fun () -> resolve x [@bs]) msecs
-			)
-		in
 
 		let aesGenerateKey () =
 			TestCrypto.generateKey
