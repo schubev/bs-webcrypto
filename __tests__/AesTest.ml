@@ -48,7 +48,7 @@ end) = struct
 		in
 
 		let aesExportKey key =
-			TestCrypto.exportKey (module AesMode) (module KeyExportRaw) key
+			TestCrypto.exportKey (module AesMode) (module ExportRaw) key
 		in
 
 		testPromise "key generation generates something" (fun () ->
@@ -59,7 +59,7 @@ end) = struct
 		testPromise "key export looks correct" (fun () ->
 			aesGenerateKey ()
 			>>= aesExportKey
-			>|= KeyExportRaw.buffer
+			>|= ExportRaw.buffer
 			>|= (fun exportBuffer ->
 				expect (exportBuffer |> ArrayBuffer.byteLength) |> toBe 32
 			)
@@ -67,8 +67,8 @@ end) = struct
 
 		testPromise "keys are unique" (fun () ->
 			Js.Promise.all2 (
-				(aesGenerateKey () >>= aesExportKey >|= KeyExportRaw.buffer >|= Uint32Array.fromBuffer),
-				(aesGenerateKey () >>= aesExportKey >|= KeyExportRaw.buffer >|= Uint32Array.fromBuffer)
+				(aesGenerateKey () >>= aesExportKey >|= ExportRaw.buffer >|= Uint32Array.fromBuffer),
+				(aesGenerateKey () >>= aesExportKey >|= ExportRaw.buffer >|= Uint32Array.fromBuffer)
 			)
 			>|= (fun (a, b) ->
 				expect a |> not_ |> toEqual b

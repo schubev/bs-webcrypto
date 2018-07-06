@@ -13,16 +13,16 @@ module Make(I : Implementation.S) = struct
 
 	let exportKey (type alg) (type fmt) 
 			(module A : KeyAlgorithm with type t = alg)
-			(module F : KeyExport.S with type t = fmt)
+			(module F : Export.S with type t = fmt)
 			(key: alg Key.t)
-			: (alg, fmt) KeyExport.t Js.Promise.t =
+			: (alg, fmt) Export.t Js.Promise.t =
 		I.exportKey F.id key
 	;;
 	
 	let importKey (type alg) (type fmt)
 			(module A : KeyAlgorithm with type t = alg)
-			(module F : KeyExport.S with type t = fmt)
-			(export: (alg, fmt) KeyExport.t)
+			(module F : Export.S with type t = fmt)
+			(export: (alg, fmt) Export.t)
 			: alg Key.t Js.Promise.t =
 		I.exportKey F.id export
 	;;
