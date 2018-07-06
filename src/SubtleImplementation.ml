@@ -8,24 +8,23 @@ module type Subtle = sig
 	val subtle : subtle
 end
 
-(*
-module WebSubtle : Subtle = struct
+module JsSubtle : Subtle = struct
 	type crypto
 	type subtle
 
-	external crypto : crypto = "window.crypto" [@@bs.val]
-	external getSubtle : crypto -> subtle = "subtle" [@@bs.get]
-	let subtle = crypto |> getSubtle
-end
-*)
+	let getCrypto : 'a -> crypto = [%raw fun x -> {|
+		if (window && window.crypto) {
+			return window.crypto
+		} else if (require) {
+			const WebCrypto = require('node-webcrypto-ossl')
+			return new WebCrypto()
+		} else {
+			throw 'webcrypto is not supported'
+		}
+	|}]
 
-module NodeSubtle : Subtle = struct
-	type crypto
-	type subtle
-
-	external newCrypto : unit -> crypto = "node-webcrypto-ossl" [@@bs.module][@@bs.new]
 	external getSubtle : crypto -> subtle = "subtle" [@@bs.get]
-	let crypto = newCrypto ()
+	let crypto = getCrypto ()
 	let subtle = crypto |> getSubtle
 end
 
@@ -50,3 +49,5 @@ module Make(S: Subtle) = struct
 	let digest = digest_ S.subtle
 	let getRandomValues buffer = getRandomValues_ S.crypto buffer
 end
+
+include Make(JsSubtle)

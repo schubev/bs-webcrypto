@@ -1,6 +1,6 @@
 open Jest
 open Js.Typed_array
-module TestCrypto = Crypto.Make(SubtleImplementation.Make(SubtleImplementation.NodeSubtle))
+module TestCrypto = Crypto.Make(SubtleImplementation)
 ;;
 
 module Test(C : sig
