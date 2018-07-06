@@ -64,8 +64,32 @@ module Make(I : Implementation.S) = struct
 		I.sign (A.signingParamToJs param) key data
 	;;
 
-	let digest (type alg)
-			(module A : HashAlgorithm with type t = alg)
+	let digest
+			(module A : HashAlgorithm)
 			: ArrayBuffer.t -> ArrayBuffer.t Js.Promise.t =
 		I.digest A.id
+
+	module type TypedArray = sig
+		type t
+		val fromLength : int -> t
+	end
+
+	let getRandomValues (type b) (module B : TypedArray with type t = b) words =
+		B.fromLength words |> I.getRandomValues
+
+	let getRandomInt8Values = getRandomValues (module Int8Array)
+	let getRandomUint8Values = getRandomValues (module Uint8Array)
+	let getRandomUint8ClampedValues = getRandomValues (module Uint8ClampedArray)
+	let getRandomInt16Values = getRandomValues (module Int16Array)
+	let getRandomUint16Values = getRandomValues (module Uint16Array)
+	let getRandomInt32Values = getRandomValues (module Int32Array)
+	let getRandomUint32Values = getRandomValues (module Uint32Array)
+
+	let fillRandomInt8Values : Int8Array.t -> Int8Array.t = I.getRandomValues
+	let fillRandomUint8Values : Uint8Array.t -> Uint8Array.t = I.getRandomValues
+	let fillRandomUint8ClampedValues : Uint8ClampedArray.t -> Uint8ClampedArray.t = I.getRandomValues
+	let fillRandomInt16Values : Int16Array.t -> Int16Array.t = I.getRandomValues
+	let fillRandomUint16Values : Uint16Array.t -> Uint16Array.t = I.getRandomValues
+	let fillRandomInt32Values : Int32Array.t -> Int32Array.t = I.getRandomValues
+	let fillRandomUint32Values : Uint32Array.t -> Uint32Array.t = I.getRandomValues
 end
